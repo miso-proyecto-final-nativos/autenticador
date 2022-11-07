@@ -1,0 +1,108 @@
+# Version del API de Kubernetes
+apiVersion: apps/v1
+# Tipo de elemento
+kind: Deployment
+# Metadatos del elemento
+metadata:
+  namespace: development
+  # Nombre
+  name: ms-autenticador
+  # Etiqueta del Deployment
+  labels:
+    app: ms-autenticador
+# Especificaciones del elemento
+spec:
+  replicas: 1
+  # K8s agrupa los elementos del Deployment y los interconecta entre si utilizando etiquetas
+  # Aqui definimos como seleccionar los elementos juntos
+  selector:
+    # En este caso va a seleccionar aquellos que coincidan con el nombre del deploy
+    matchLabels:
+      app: ms-autenticador
+  # En este elemento definimos la politica de actualizacion del despliegue
+  # No esta al alcance de este laboratorio, pero invitamos al lector a consultar mas sobre
+  # tecnicas de actualización de despliegues como Rolling Update y Blue/Green
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  # En esta sección definimos el contenido del pod y declaramos los contenedores
+  template:
+    metadata:
+      labels:
+        # Esta es la etiqueta que se le asigna al pod, debe ser igual al selector (linea 24)
+        app: ms-autenticador
+    spec:
+      # Declaracion de contenedores
+      # name: Nombre del contenedor
+      # image: Nombre de la imagen, por defecto buscara en Docker Hub o en el repositorio privado
+      #        configurado en K8s
+      containers:
+        - name: contenendor-ms-autenticador
+          readinessProbe:
+            httpGet:
+              path: /autenticador/health
+              port: 3000    
+          image: IMAGE
+          ports:
+            - containerPort: 3000
+            - containerPort: 4000
+          # Variables de entorno
+          # Observe que estamos empleando el valor presente en el secreto, en el secreto debe estar configurada la URL de conexión a la base de datos
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: USER_MS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: autenticador-config-map
+                  key: USER_MS_HOST
+            - name: USER_MS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: autenticador-config-map
+                  key: USER_MS_PORT
+          # Realizar pull siempre a la imagen
+          imagePullPolicy: Always
+      serviceAccountName: ksa-dev-sportapp
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sportapp-ms-autenticador-service
+  namespace: development
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: ms-autenticador
+  # Declaracion y redireccion del trafico por los puertos
+  # En este caso, estamos ocupando el puerto 80 para la conexión HTTP
+  # y lo estamos redirigiendo al 3000 de la red virtual del pod
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 3000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: sportapp-ms-autenticador-tcp-service
+  namespace: development
+  annotations:
+    cloud.google.com/neg: '{"ingress": true}'
+spec:
+  type: ClusterIP
+  selector:
+    app: ms-autenticador
+  # Declaracion y redireccion del trafico por los puertos
+  # En este caso, estamos ocupando el puerto 80 para la conexión HTTP
+  # y lo estamos redirigiendo al 3000 de la red virtual del pod
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 4000      
