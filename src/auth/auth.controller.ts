@@ -5,7 +5,7 @@ import { LocalAuthGuard } from './guards/local-auth.guard';
 
 @Controller('autenticador')
 export class AuthController {
-  constructor(private readonly authService: AuthService) {}
+  constructor(private readonly authService: AuthService) { }
 
   @UseGuards(LocalAuthGuard)
   @Post('auth')
@@ -13,7 +13,7 @@ export class AuthController {
     return this.authService.login(req.user);
   }
 
-  @Get('health')
+  @Get("health")
   async healthCheck(): Promise<string> {
     return 'All good!';
   }

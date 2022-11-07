@@ -39,7 +39,7 @@ spec:
       #        configurado en K8s
       containers:
         - name: contenendor-ms-autenticador
-          image: IMAGE
+          image: southamerica-east1-docker.pkg.dev/sportapp-miso-grupo6/sportapp-miso-grupo6-repository/autenticador:1.0
           ports:
             - containerPort: 3000
             - containerPort: 4000
@@ -60,7 +60,7 @@ spec:
                   key: USER_MS_PORT
           # Realizar pull siempre a la imagen
           imagePullPolicy: Always
-      serviceAccountName: ksa-dev-sportapp
+      serviceAccountName: ksa-sportapp
 
 # Vamos a especificar el balanceador de carga en este mismo archivo
 # para ello vamos a crear otro documento separado, esto se hace con el operador "---"
