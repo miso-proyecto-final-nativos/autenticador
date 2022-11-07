@@ -1,35 +1,3 @@
-Skip to content
-Search or jump to…
-Pull requests
-Issues
-Marketplace
-Explore
- 
-@deyvidm18 
-nestjs
-/
-docs.nestjs.com
-Public
-Code
-Issues
-81
-Pull requests
-67
-Actions
-Projects
-Security
-Insights
-docs.nestjs.com/.gitignore
-@kamilmysliwiec
-kamilmysliwiec chore(): add v8 bundle
-Latest commit af92dc9 on Jul 8
- History
- 7 contributors
-@kamilmysliwiec@johnbiundo@mkaufmaner@michaelyali@BrunnerLivio@beeman@Tony133
-57 lines (48 sloc)  695 Bytes
-
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
 # compiled output
 dist/*
 !/dist/v4
