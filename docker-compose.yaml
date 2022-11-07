@@ -1,0 +1,27 @@
+version: "3.9"
+
+services:
+  autenticador_ms:
+    image: autenticador:1.0
+    container_name: autenticador_ms_dev
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    command: npm run start:dev
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+      - 9229:9229
+    networks:
+      - sportapp_miso
+    volumes:
+      - .:/usr/src/app:z
+      - /usr/src/app/node_modules
+    environment:
+      NODE_ENV: development
+      USER_MS_HOST: localhost
+      USER_MS_PORT: 4010
+
+networks:
+  sportapp_miso:

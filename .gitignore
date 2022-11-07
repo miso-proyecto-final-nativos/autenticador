@@ -1,0 +1,101 @@
+Skip to content
+Search or jump to…
+Pull requests
+Issues
+Marketplace
+Explore
+ 
+@deyvidm18 
+nestjs
+/
+docs.nestjs.com
+Public
+Code
+Issues
+81
+Pull requests
+67
+Actions
+Projects
+Security
+Insights
+docs.nestjs.com/.gitignore
+@kamilmysliwiec
+kamilmysliwiec chore(): add v8 bundle
+Latest commit af92dc9 on Jul 8
+ History
+ 7 contributors
+@kamilmysliwiec@johnbiundo@mkaufmaner@michaelyali@BrunnerLivio@beeman@Tony133
+57 lines (48 sloc)  695 Bytes
+
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# compiled output
+dist/*
+!/dist/v4
+!/dist/v5
+!/dist/v6
+!/dist/v7
+!/dist/v8
+
+/tmp
+/out-tsc
+
+# dependencies
+/node_modules
+
+# IDEs and editors
+/.idea
+.project
+.classpath
+.c9/
+.vscode
+*.launch
+.settings/
+*.sublime-workspace
+
+# IDE - VSCode
+*.code-workspace
+/.vscode
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+
+# misc
+/.sass-cache
+/connect.lock
+/coverage
+/libpeerconnection.log
+npm-debug.log
+testem.log
+/typings
+.angular
+# e2e
+/e2e/*.js
+/e2e/*.map
+
+# System Files
+.DS_Store
+Thumbs.db
+
+# Mock API
+/api/node_modules
+
+# compiled templates
+src/app/homepage/pages/**/*.html
+Footer
+© 2022 GitHub, Inc.
+Footer navigation
+Terms
+Privacy
+Security
+Status
+Docs
+Contact GitHub
+Pricing
+API
+Training
+Blog
+About
