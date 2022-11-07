@@ -7,14 +7,13 @@ import { LocalStrategy } from './strategies/local.strategy';
 import { AuthController } from './auth.controller';
 import jwtConstants from '../shared/security/constants';
 import { ConfigModule, ConfigService } from '@nestjs/config';
-import { configuration } from 'src/config/configuration';
+import { configuration } from '../config/configuration';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      envFilePath: `${process.cwd()}/src/config/env/${
-        process.env.NODE_ENV
-      }.env`,
+      envFilePath: `${process.cwd()}/src/config/env/${process.env.NODE_ENV
+        }.env`,
       load: [configuration],
     }),
     ClientsModule.registerAsync([
@@ -39,4 +38,4 @@ import { configuration } from 'src/config/configuration';
   providers: [AuthService, LocalStrategy, JwtStrategy],
   controllers: [AuthController],
 })
-export class AuthModule {}
+export class AuthModule { }
