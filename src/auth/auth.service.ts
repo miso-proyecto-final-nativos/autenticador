@@ -15,13 +15,18 @@ import {
   TimeoutError,
 } from 'rxjs';
 
+// Imports the Google Cloud client library
+const { PubSub } = require('@google-cloud/pubsub');
+const pubSubClient = new PubSub();
+const TOPIC = "projects/sportapp-miso-grupo6/topics/sensors";
+
 @Injectable()
 export class AuthService {
   constructor(
     @Inject('USER_CLIENT')
     private readonly client: ClientProxy,
     private readonly jwtService: JwtService,
-  ) {}
+  ) { }
 
   async validateUser(username: string, password: string): Promise<any> {
     try {
@@ -42,7 +47,8 @@ export class AuthService {
       if (compareSync(password, user.password)) {
         return user;
       }
-
+      // The user does not exists!!
+      publishMessage("Error en la validación del usuario: ${username}")
       return null;
     } catch (e) {
       Logger.log(e);
@@ -61,5 +67,19 @@ export class AuthService {
 
   validateToken(jwt: string) {
     return this.jwtService.verify(jwt);
+  }
+}
+
+async function publishMessage(data: string) {
+  const dataBuffer = Buffer.from(data);
+
+  try {
+    const messageId = await pubSubClient
+      .topic(TOPIC)
+      .publishMessage({ data: dataBuffer });
+    console.log(`Message ${messageId} published.`);
+  } catch (error) {
+    console.error(`Received error while publishing: ${error.message}`);
+    process.exitCode = 1;
   }
 }
