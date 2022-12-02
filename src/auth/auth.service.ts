@@ -48,8 +48,9 @@ export class AuthService {
         return user;
       }
       // The user does not exists!!
-      console.log("Error en la validación del usuario: ${username}");
-      await publishMessage("Error en la validación del usuario: ${username}");
+      let message = `Error en la validación del usuario: ${username}`;
+      console.log(message);
+      publishMessage(message);
       return null;
     } catch (e) {
       Logger.log(e);
