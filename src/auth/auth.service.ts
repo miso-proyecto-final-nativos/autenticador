@@ -18,7 +18,7 @@ import {
 // Imports the Google Cloud client library
 const { PubSub } = require('@google-cloud/pubsub');
 const pubSubClient = new PubSub();
-const TOPIC = "projects/sportapp-miso-grupo6/subscriptions/auth-erros-sub";
+const TOPIC = "projects/sportapp-miso-grupo6/topics/auth-erros";
 
 @Injectable()
 export class AuthService {
